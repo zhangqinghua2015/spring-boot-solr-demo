@@ -46,7 +46,7 @@ public class BookController {
         document.setField("id", book.getId());
         document.setField("description", book.getDescription());
         try {
-            solrClient.add(document);
+            solrClient.add("book", document);
             solrClient.commit();
         } catch (SolrServerException | IOException e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class BookController {
     @RequestMapping("/update")
     public Book update(Book book) {
         try {
-            solrClient.addBean(book);
+            solrClient.addBean("book", book);
             solrClient.commit();
         } catch (IOException | SolrServerException e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class BookController {
     public String delete(String query) {
         try {
 //            solrClient.deleteById(query);//根据id删除
-            solrClient.deleteByQuery(query);//根据索引查询删除  *:*   description:你在什么地方
+            solrClient.deleteByQuery("book", query);//根据索引查询删除  *:*   description:你在什么地方
             solrClient.commit();
         } catch (SolrServerException | IOException e) {
             e.printStackTrace();
@@ -92,7 +92,7 @@ public class BookController {
         SolrQuery solrQuery = new SolrQuery();
         solrQuery.setQuery("*:*");
         try {
-            QueryResponse queryResponse = solrClient.query(solrQuery);
+            QueryResponse queryResponse = solrClient.query("book", solrQuery);
             if (queryResponse != null) {
                 bookList = queryResponse.getBeans(Book.class);
             }
@@ -160,7 +160,7 @@ public class BookController {
         //后缀
         solrQuery.setHighlightSimplePost("</font>");
         try {
-            QueryResponse queryResponse = solrClient.query(solrQuery);
+            QueryResponse queryResponse = solrClient.query("book", solrQuery);
             if (queryResponse == null) {
                 return null;
             }

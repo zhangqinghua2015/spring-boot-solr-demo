@@ -1,4 +1,5 @@
 spring:
   data:
     solr:
-      host: http://localhost:8983/solr/gettingstarted
+      host: http://localhost:8984/solr,http://localhost:8985/solr,http://localhost:8986/solr,http://localhost:8987/solr
+      zk-host: localhost:2182
